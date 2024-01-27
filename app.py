@@ -5,7 +5,9 @@ from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
-
+from langchain.chains.question_answering import load_qa_chain
+from langchain.llms import OpenAI
+from langchain.callbacks import get_openai_callback
 
 
 def main():
@@ -36,9 +38,19 @@ def main():
     knowledge_base = FAISS.from_texts(chunks, embeddings)
     
     
+    #show user input
     user_question = st.text_input("Ask a question about VVIT here: ")
-    
-    
+    if user_question:
+        docs = knowledge_base.similarity_search(user_question)
+        
+        llm = OpenAI(model_name="gpt-3.5-turbo-instruct")
+        chain = load_qa_chain(llm, chain_type="stuff")
+        #with get_openai_callback() as cb:
+        response = chain.run(input_documents = docs, question = user_question)
+            #print(cb)
+        
+        
+        st.write(response)
 
 
 
