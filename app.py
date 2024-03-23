@@ -15,7 +15,7 @@ def main():
     st.set_page_config(page_title="chatbot")
     st.header("ASK YOUR CHATBOT")
     
-    pdf = PdfReader('C:\\Users\\raviv\\OneDrive\\Desktop\\clg\\chatbot lanchain test\\langchainclgchatbot\\VVIT updated2.pdf')
+    pdf = PdfReader('VVITupdated2.pdf')
     
     text = ""
     for page in pdf.pages:
